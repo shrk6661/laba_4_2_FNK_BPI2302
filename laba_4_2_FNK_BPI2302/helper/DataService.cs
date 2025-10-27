@@ -19,14 +19,14 @@ namespace laba_4_2_FNK_BPI2302.helper
 
         public DataService()
         {
-            // Создаем директорию для данных, если она не существует
+            // создаем директорию для данных если нет
             if (!Directory.Exists(_dataDirectory))
             {
                 Directory.CreateDirectory(_dataDirectory);
             }
         }
 
-        // Методы для работы с ролями
+        // методы для работы с ролями
         public ObservableCollection<Role> LoadRoles()
         {
             string filePath = Path.Combine(_dataDirectory, _rolesFile);
@@ -37,7 +37,7 @@ namespace laba_4_2_FNK_BPI2302.helper
             }
             else
             {
-                // Возвращаем пустую коллекцию, если файл не существует
+                // возвращаем пустую коллекцию, если файла нет
                 return new ObservableCollection<Role>();
             }
         }
@@ -49,7 +49,7 @@ namespace laba_4_2_FNK_BPI2302.helper
             File.WriteAllText(filePath, json);
         }
 
-        // Методы для работы с сотрудниками
+        // методы для работы с сотрудниками
         public ObservableCollection<Person> LoadPersons()
         {
             string filePath = Path.Combine(_dataDirectory, _personsFile);
@@ -60,7 +60,7 @@ namespace laba_4_2_FNK_BPI2302.helper
             }
             else
             {
-                // Возвращаем пустую коллекцию, если файл не существует
+                // возвращаем пустую коллекцию, если файла нет
                 return new ObservableCollection<Person>();
             }
         }

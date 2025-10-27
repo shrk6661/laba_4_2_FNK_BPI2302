@@ -5,30 +5,30 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <!-- Эффекты теней для меню и карточек -->
+        <!-- эффекты теней для меню и карт -->
         <DropShadowEffect x:Key="MenuShadow" BlurRadius="5" ShadowDepth="1" Opacity="0.2"/>
         <DropShadowEffect x:Key="CardShadow" BlurRadius="15" ShadowDepth="3" Opacity="0.15"/>
 
 
-        <!-- 🎨 Цветовая палитра (мягкие оттенки) -->
+        <!-- цветовая палитра -->
         <Color x:Key="PrimaryColor">#FF2F3E46</Color>
         <Color x:Key="SecondaryColor">#FF3FA9F5</Color>
         <Color x:Key="AccentColor">#FFFF6B6B</Color>
         <Color x:Key="LightColor">#FFF7F9FA</Color>
         <Color x:Key="DarkColor">#FF1C2833</Color>
 
-        <!-- Кисти -->
+        <!-- кисти -->
         <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource PrimaryColor}"/>
         <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource SecondaryColor}"/>
         <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}"/>
         <SolidColorBrush x:Key="LightBrush" Color="{StaticResource LightColor}"/>
         <SolidColorBrush x:Key="DarkBrush" Color="{StaticResource DarkColor}"/>
 
-        <!-- 🌐 Общие параметры -->
+        <!-- общие параметры -->
         <Thickness x:Key="BaseCornerRadius">6</Thickness>
         <FontFamily x:Key="BaseFont">Segoe UI Variable Display</FontFamily>
 
-        <!-- 🪟 Окно -->
+        <!-- окно -->
         <Style TargetType="Window">
             <Setter Property="Background" Value="{StaticResource LightBrush}"/>
             <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
@@ -36,7 +36,7 @@
             <Setter Property="FontSize" Value="13"/>
         </Style>
 
-        <!-- 📋 Меню -->
+        <!-- меню -->
         <Style TargetType="Menu">
             <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
             <Setter Property="Foreground" Value="{StaticResource LightBrush}"/>
@@ -60,7 +60,7 @@
             </Style.Triggers>
         </Style>
 
-        <!-- 📄 ListView -->
+        <!-- ListView -->
         <Style TargetType="ListView">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="#FFE0E0E0"/>
@@ -86,7 +86,7 @@
             </Style.Triggers>
         </Style>
 
-        <!-- 🧭 GridViewColumnHeader -->
+        <!-- GridViewColumnHeader -->
         <Style TargetType="GridViewColumnHeader">
             <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
             <Setter Property="Foreground" Value="White"/>
@@ -96,7 +96,7 @@
             <Setter Property="BorderBrush" Value="{StaticResource DarkBrush}"/>
         </Style>
 
-        <!-- 🔘 Кнопки -->
+        <!-- Кнопки -->
         <Style TargetType="Button">
             <Setter Property="Background" Value="#2574A9"/>
             <Setter Property="Foreground" Value="White"/>
@@ -121,7 +121,7 @@
             </Style.Triggers>
         </Style>
 
-        <!-- 🏷 Label -->
+        <!-- Label -->
         <Style TargetType="Label">
             <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
             <Setter Property="FontWeight" Value="SemiBold"/>

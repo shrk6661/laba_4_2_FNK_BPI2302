@@ -35,7 +35,7 @@ namespace laba_4_2_FNK_BPI2302.viewmodel
             ListPerson = dataService.LoadPersons();
             ListPersonDpo = new ObservableCollection<PersonDpo>();
 
-            // Если данных нет, добавляем начальные данные
+            // если данных нет, добавляем начальные данные
             if (ListPerson.Count == 0)
             {
                 InitializeDefaultPersons();
@@ -190,7 +190,7 @@ namespace laba_4_2_FNK_BPI2302.viewmodel
 
                     if (result == MessageBoxResult.OK)
                     {
-                        // Находим соответствующий Person объект
+                        // находим соответствующий Person 
                         FindPerson finder = new FindPerson(person.Id);
                         var listPerson = new List<Person>(ListPerson);
                         Person per = listPerson.Find(new Predicate<Person>(finder.PersonPredicate));
