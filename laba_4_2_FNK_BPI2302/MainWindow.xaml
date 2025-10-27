@@ -8,14 +8,14 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="{StaticResource LightBrush}">
 
-        <!-- Верхнее меню -->
+        <!-- верхнее меню -->
         <Menu VerticalAlignment="Top" Margin="0,0,0,2" 
               Effect="{DynamicResource MenuShadow}">
             <MenuItem Header="Сотрудники" Click="Employee_OnClick"/>
             <MenuItem Header="Должности" Click="Role_OnClick"/>
         </Menu>
 
-        <!-- Центральный текст -->
+        <!-- центральный текст -->
         <Border CornerRadius="10" Padding="15" 
                 Background="White" 
                 Effect="{DynamicResource CardShadow}"

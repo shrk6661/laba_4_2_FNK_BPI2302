@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- 🧍 Фамилия -->
+            <!-- фамилия -->
             <Label Grid.Row="0" Grid.Column="0" 
                    Content="Фамилия:" 
                    VerticalAlignment="Center"
@@ -45,7 +45,7 @@
                      BorderBrush="{StaticResource PrimaryBrush}"
                      BorderThickness="1"/>
 
-            <!-- 🧍 Имя -->
+            <!-- имя -->
             <Label Grid.Row="1" Grid.Column="0"
                    Content="Имя:"
                    VerticalAlignment="Center"
@@ -60,7 +60,7 @@
                      BorderBrush="{StaticResource PrimaryBrush}"
                      BorderThickness="1"/>
 
-            <!-- 💼 Должность -->
+            <!-- должность -->
             <Label Grid.Row="2" Grid.Column="0"
                    Content="Должность:"
                    VerticalAlignment="Center"
@@ -77,7 +77,7 @@
                       BorderThickness="1"
                       Background="White"/>
 
-            <!-- 🎂 Дата рождения -->
+            <!-- дата рождения -->
             <Label Grid.Row="3" Grid.Column="0"
                    Content="Дата рождения:"
                    VerticalAlignment="Center"
@@ -92,7 +92,7 @@
                         Background="White"
                         Padding="3"/>
 
-            <!-- 🔘 Кнопки -->
+            <!-- кнопки -->
             <StackPanel Grid.Row="4" Grid.ColumnSpan="2"
                         Orientation="Horizontal"
                         HorizontalAlignment="Right"

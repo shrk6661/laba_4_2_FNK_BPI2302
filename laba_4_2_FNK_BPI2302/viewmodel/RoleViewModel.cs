@@ -36,7 +36,7 @@ namespace laba_4_2_FNK_BPI2302.viewmodel
             dataService = new DataService();
             ListRole = dataService.LoadRoles();
 
-            // Если данных нет, добавляем начальные данные
+            // если данных нет, добавляем начальные данные
             if (ListRole.Count == 0)
             {
                 InitializeDefaultRoles();

@@ -26,7 +26,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- 🏷 Поле ввода -->
+            <!-- поле ввода -->
             <Label Grid.Row="0" Grid.Column="0" 
                    Content="Наименование:" 
                    VerticalAlignment="Center"
@@ -41,7 +41,7 @@
                      BorderBrush="{StaticResource PrimaryBrush}"
                      BorderThickness="1"/>
 
-            <!-- 🔘 Кнопки -->
+            <!-- кнопки -->
             <StackPanel Grid.Row="1" Grid.ColumnSpan="2"
                         Orientation="Horizontal"
                         HorizontalAlignment="Right"

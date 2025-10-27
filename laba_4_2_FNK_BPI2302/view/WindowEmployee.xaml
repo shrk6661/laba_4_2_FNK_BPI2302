@@ -16,7 +16,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- 📋 Список сотрудников -->
+        <!-- cписок сотрудников -->
         <Border Grid.Row="0"
                 Background="White"
                 CornerRadius="10"
@@ -41,7 +41,7 @@
             </ListView>
         </Border>
 
-        <!-- 🔘 Панель кнопок -->
+        <!-- панель кнопок -->
         <Border Grid.Row="1"
                 CornerRadius="8"
                 Background="{StaticResource PrimaryBrush}"
