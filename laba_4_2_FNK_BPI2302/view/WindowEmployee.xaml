@@ -1,0 +1,57 @@
+﻿<Window x:Class="laba_4_2_FNK_BPI2302.view.WindowEmployee"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:laba_4_2_FNK_BPI2302.view"
+        mc:Ignorable="d"
+        Title="Сотрудники"
+        Height="480" Width="720"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource LightBrush}">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 📋 Список сотрудников -->
+        <Border Grid.Row="0"
+                Background="White"
+                CornerRadius="10"
+                Padding="5"
+                Effect="{StaticResource CardShadow}"
+                Margin="0,0,0,10">
+            <ListView x:Name="lvEmployee"
+                      ItemsSource="{Binding ListPersonDpo}"
+                      SelectedItem="{Binding SelectedPersonDpo}"
+                      BorderThickness="0"
+                      Margin="5">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Код" Width="60" DisplayMemberBinding="{Binding Id}"/>
+                        <GridViewColumn Header="Фамилия" Width="150" DisplayMemberBinding="{Binding LastName}"/>
+                        <GridViewColumn Header="Имя" Width="150" DisplayMemberBinding="{Binding FirstName}"/>
+                        <GridViewColumn Header="Должность" Width="150" DisplayMemberBinding="{Binding RoleName}"/>
+                        <GridViewColumn Header="Дата рождения" Width="120" 
+                                        DisplayMemberBinding="{Binding Birthday, StringFormat={}{0:dd.MM.yyyy}}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+        <!-- 🔘 Панель кнопок -->
+        <Border Grid.Row="1"
+                CornerRadius="8"
+                Background="{StaticResource PrimaryBrush}"
+                Padding="8"
+                Effect="{StaticResource MenuShadow}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Добавить" Command="{Binding AddPerson}" Width="110"/>
+                <Button Content="Редактировать" Command="{Binding EditPerson}" Width="120"/>
+                <Button Content="Удалить" Command="{Binding DeletePerson}" Width="110"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
