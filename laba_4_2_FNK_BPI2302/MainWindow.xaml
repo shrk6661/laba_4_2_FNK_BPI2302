@@ -21,10 +21,10 @@
                 Effect="{DynamicResource CardShadow}"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
-            <TextBlock Text="Выберите пункт меню для работы с данными" 
+            <TextBlock 
                        Foreground="{StaticResource PrimaryBrush}"
                        FontSize="15" FontWeight="SemiBold"
-                       TextAlignment="Center"/>
+                       TextAlignment="Center"><Run Language="ru-ru" Text="Выберите нужную опцию для дальнейшей работы"/><LineBreak/><Run Language="ru-ru"/></TextBlock>
         </Border>
     </Grid>
 </Window>

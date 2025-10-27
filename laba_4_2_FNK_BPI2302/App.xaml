@@ -11,10 +11,10 @@
 
 
         <!-- цветовая палитра -->
-        <Color x:Key="PrimaryColor">#FF2F3E46</Color>
-        <Color x:Key="SecondaryColor">#FF3FA9F5</Color>
+        <Color x:Key="PrimaryColor">DarkOliveGreen</Color>
+        <Color x:Key="SecondaryColor">LightBlue</Color>
         <Color x:Key="AccentColor">#FFFF6B6B</Color>
-        <Color x:Key="LightColor">#FFF7F9FA</Color>
+        <Color x:Key="LightColor">Gray</Color>
         <Color x:Key="DarkColor">#FF1C2833</Color>
 
         <!-- кисти -->
@@ -98,7 +98,7 @@
 
         <!-- Кнопки -->
         <Style TargetType="Button">
-            <Setter Property="Background" Value="#2574A9"/>
+            <Setter Property="Background" Value='LightBlue'/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="{StaticResource SecondaryBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
