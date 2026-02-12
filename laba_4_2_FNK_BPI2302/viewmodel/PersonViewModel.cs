@@ -14,7 +14,7 @@ namespace laba_4_2_FNK_BPI2302.viewmodel
 {
     public class PersonViewModel : INotifyPropertyChanged
     {
-        readonly string path = @"D:\blablabla\laba_4_2_FNK_BPI2302\laba_4_2_FNK_BPI2302\DataModels\PersonData.json";
+        readonly string path = @"..\..\DataModels\PersonData.json";
 
         private PersonDpo _selectedPersonDpo;
         public PersonDpo SelectedPersonDpo
@@ -51,14 +51,14 @@ namespace laba_4_2_FNK_BPI2302.viewmodel
             }
             catch { }
 
-            if (ListPerson.Count == 0)
+            /*if (ListPerson.Count == 0)
             {
                 ListPerson.Add(new Person { Id = 1, RoleId = 1, FirstName = "Иван", LastName = "Иванов", Birthday = "28.02.1980" });
                 ListPerson.Add(new Person { Id = 2, RoleId = 2, FirstName = "Петр", LastName = "Петров", Birthday = "20.03.1981" });
                 ListPerson.Add(new Person { Id = 3, RoleId = 3, FirstName = "Виктор", LastName = "Викторов", Birthday = "15.04.1982" });
                 ListPerson.Add(new Person { Id = 4, RoleId = 3, FirstName = "Сидор", LastName = "Сидоров", Birthday = "10.05.1983" });
                 SaveData();
-            }
+            }*/
 
             UpdatePersonDpoList();
         }

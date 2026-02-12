@@ -80,7 +80,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="helper\DataService.cs" />
     <Compile Include="helper\FindPerson.cs" />
     <Compile Include="helper\FindRole.cs" />
     <Compile Include="helper\RelayCommand.cs" />

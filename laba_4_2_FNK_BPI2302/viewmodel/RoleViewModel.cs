@@ -18,7 +18,7 @@ namespace laba_4_2_FNK_BPI2302.viewmodel
     public class RoleViewModel : INotifyPropertyChanged
     {
        
-        readonly string path = @"D:\blablabla\laba_4_2_FNK_BPI2302\laba_4_2_FNK_BPI2302\DataModels\RoleData.json";
+        readonly string path = @"..\..\DataModels\PersonData.json";
 
         
         string _jsonRoles = String.Empty;
