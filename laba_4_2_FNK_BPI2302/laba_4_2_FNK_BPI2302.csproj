@@ -80,7 +80,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="helper\DataService.cs" />
     <Compile Include="helper\FindPerson.cs" />
     <Compile Include="helper\FindRole.cs" />
     <Compile Include="helper\RelayCommand.cs" />
@@ -126,6 +125,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="DataModels\PersonData.json" />
+    <None Include="DataModels\RoleData.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

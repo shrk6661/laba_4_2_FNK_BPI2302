@@ -1,27 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using laba_4_2_FNK_BPI2302.helper;
 using laba_4_2_FNK_BPI2302.model;
 using laba_4_2_FNK_BPI2302.view;
+using Newtonsoft.Json;
 
 namespace laba_4_2_FNK_BPI2302.viewmodel
 {
     public class PersonViewModel : INotifyPropertyChanged
     {
-        private PersonDpo selectedPersonDpo;
-        private DataService dataService;
+        readonly string path = @"..\..\DataModels\PersonData.json";
 
+        private PersonDpo _selectedPersonDpo;
         public PersonDpo SelectedPersonDpo
         {
-            get { return selectedPersonDpo; }
+            get { return _selectedPersonDpo; }
             set
             {
-                selectedPersonDpo = value;
+                _selectedPersonDpo = value;
                 OnPropertyChanged("SelectedPersonDpo");
             }
         }
@@ -31,192 +32,173 @@ namespace laba_4_2_FNK_BPI2302.viewmodel
 
         public PersonViewModel()
         {
-            dataService = new DataService();
-            ListPerson = dataService.LoadPersons();
+            ListPerson = new ObservableCollection<Person>();
             ListPersonDpo = new ObservableCollection<PersonDpo>();
 
-            // если данных нет, добавляем начальные данные
-            if (ListPerson.Count == 0)
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            try
             {
-                InitializeDefaultPersons();
-                SavePersons();
+                if (File.Exists(path))
+                {
+                    var json = File.ReadAllText(path);
+                    ListPerson = JsonConvert.DeserializeObject<ObservableCollection<Person>>(json)
+                        ?? new ObservableCollection<Person>();
+                }
             }
+            catch { }
 
-            ListPersonDpo = GetListPersonDpo();
+            /*if (ListPerson.Count == 0)
+            {
+                ListPerson.Add(new Person { Id = 1, RoleId = 1, FirstName = "Иван", LastName = "Иванов", Birthday = "28.02.1980" });
+                ListPerson.Add(new Person { Id = 2, RoleId = 2, FirstName = "Петр", LastName = "Петров", Birthday = "20.03.1981" });
+                ListPerson.Add(new Person { Id = 3, RoleId = 3, FirstName = "Виктор", LastName = "Викторов", Birthday = "15.04.1982" });
+                ListPerson.Add(new Person { Id = 4, RoleId = 3, FirstName = "Сидор", LastName = "Сидоров", Birthday = "10.05.1983" });
+                SaveData();
+            }*/
+
+            UpdatePersonDpoList();
         }
 
-        private void InitializeDefaultPersons()
+        private void SaveData()
         {
-            ListPerson.Add(new Person { Id = 1, RoleId = 1, FirstName = "Иван", LastName = "Иванов", Birthday = new DateTime(1980, 2, 28) });
-            ListPerson.Add(new Person { Id = 2, RoleId = 2, FirstName = "Петр", LastName = "Петров", Birthday = new DateTime(1981, 3, 20) });
-            ListPerson.Add(new Person { Id = 3, RoleId = 3, FirstName = "Виктор", LastName = "Викторов", Birthday = new DateTime(1982, 4, 15) });
-            ListPerson.Add(new Person { Id = 4, RoleId = 3, FirstName = "Сидор", LastName = "Сидоров", Birthday = new DateTime(1983, 5, 10) });
+            try
+            {
+                var json = JsonConvert.SerializeObject(ListPerson, Formatting.Indented);
+                File.WriteAllText(path, json);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка сохранения: " + ex.Message);
+            }
         }
 
-        private void SavePersons()
-        {
-            dataService.SavePersons(ListPerson);
-        }
-
-        public ObservableCollection<PersonDpo> GetListPersonDpo()
+        private void UpdatePersonDpoList()
         {
             ListPersonDpo.Clear();
+            var roleVM = new RoleViewModel();
+
             foreach (var person in ListPerson)
             {
-                PersonDpo p = new PersonDpo();
-                p = p.CopyFromPerson(person);
+                var p = new PersonDpo();
+                p.CopyFromPerson(person, roleVM);
                 ListPersonDpo.Add(p);
             }
-            return ListPersonDpo;
         }
 
         public int MaxId()
         {
-            int max = 0;
-            foreach (var r in this.ListPerson)
-            {
-                if (max < r.Id)
-                {
-                    max = r.Id;
-                }
-            }
-            return max;
+            return ListPerson.Count > 0 ? ListPerson.Max(x => x.Id) : 0;
         }
 
-        #region Команды для сотрудников
-
-        private RelayCommand addPerson;
+        private RelayCommand _addPerson;
         public RelayCommand AddPerson
         {
             get
             {
-                return addPerson ??
-                    (addPerson = new RelayCommand(obj =>
+                return _addPerson ?? (_addPerson = new RelayCommand(obj =>
+                {
+                    var wnPerson = new WindowNewEmployee();
+                    var newPerson = new PersonDpo
                     {
-                        WindowNewEmployee wnPerson = new WindowNewEmployee
+                        Id = MaxId() + 1,
+                        Birthday = DateTime.Now.ToString("dd.MM.yyyy")
+                    };
+                    wnPerson.DataContext = newPerson;
+
+                    if (wnPerson.ShowDialog() == true)
+                    {
+                        var role = (Role)wnPerson.CbRole.SelectedItem;
+                        if (role != null)
                         {
-                            Title = "Новый сотрудник"
-                        };
+                            newPerson.RoleId = role.Id;
+                            newPerson.RoleName = role.NameRole;
 
-                        int maxIdPerson = MaxId() + 1;
-                        PersonDpo per = new PersonDpo
-                        {
-                            Id = maxIdPerson,
-                            Birthday = DateTime.Now
-                        };
+                            ListPersonDpo.Add(newPerson);
 
-                        wnPerson.DataContext = per;
+                            var roleVM = new RoleViewModel();
+                            var person = newPerson.CopyToPerson(roleVM);
+                            ListPerson.Add(person);
 
-                        if (wnPerson.ShowDialog() == true)
-                        {
-                            Role r = (Role)wnPerson.CbRole.SelectedItem;
-                            if (r != null)
-                            {
-                                per.RoleName = r.NameRole;
-                                ListPersonDpo.Add(per);
-
-                                Person p = new Person();
-                                p = p.CopyFromPersonDPO(per);
-                                ListPerson.Add(p);
-                                SavePersons();
-                            }
+                            SaveData();
                         }
-                    }));
+                    }
+                }));
             }
         }
 
-        private RelayCommand editPerson;
+        private RelayCommand _editPerson;
         public RelayCommand EditPerson
         {
             get
             {
-                return editPerson ??
-                    (editPerson = new RelayCommand(obj =>
+                return _editPerson ?? (_editPerson = new RelayCommand(obj =>
+                {
+                    if (SelectedPersonDpo == null) return;
+
+                    var wnPerson = new WindowNewEmployee();
+                    var tempPerson = SelectedPersonDpo.ShallowCopy();
+                    wnPerson.DataContext = tempPerson;
+
+                    if (wnPerson.ShowDialog() == true)
                     {
-                        WindowNewEmployee wnPerson = new WindowNewEmployee()
+                        var role = (Role)wnPerson.CbRole.SelectedItem;
+                        if (role != null)
                         {
-                            Title = "Редактирование данных сотрудника",
-                        };
+                            SelectedPersonDpo.RoleId = role.Id;
+                            SelectedPersonDpo.RoleName = role.NameRole;
+                            SelectedPersonDpo.FirstName = tempPerson.FirstName;
+                            SelectedPersonDpo.LastName = tempPerson.LastName;
+                            SelectedPersonDpo.Birthday = tempPerson.Birthday;
 
-                        PersonDpo personDpo = SelectedPersonDpo;
-                        PersonDpo tempPerson = new PersonDpo();
-                        tempPerson = personDpo.ShallowCopy();
-                        wnPerson.DataContext = tempPerson;
-
-                        if (wnPerson.ShowDialog() == true)
-                        {
-                            Role r = (Role)wnPerson.CbRole.SelectedItem;
-                            if (r != null)
+                            var person = ListPerson.FirstOrDefault(p => p.Id == SelectedPersonDpo.Id);
+                            if (person != null)
                             {
-                                personDpo.RoleName = r.NameRole;
-                                personDpo.FirstName = tempPerson.FirstName;
-                                personDpo.LastName = tempPerson.LastName;
-                                personDpo.Birthday = tempPerson.Birthday;
+                                var roleVM = new RoleViewModel();
+                                person.RoleId = role.Id;
+                                person.FirstName = SelectedPersonDpo.FirstName;
+                                person.LastName = SelectedPersonDpo.LastName;
+                                person.Birthday = SelectedPersonDpo.Birthday;
 
-                                FindPerson finder = new FindPerson(personDpo.Id);
-                                var listPerson = new List<Person>(ListPerson);
-                                Person p = listPerson.Find(new Predicate<Person>(finder.PersonPredicate));
-                                if (p != null)
-                                {
-                                    p = p.CopyFromPersonDPO(personDpo);
-                                    ListPerson.Clear();
-                                    foreach (var person in listPerson)
-                                    {
-                                        ListPerson.Add(person);
-                                    }
-                                    SavePersons();
-                                }
+                                SaveData();
                             }
                         }
-                    },
-                    (obj) => SelectedPersonDpo != null && ListPersonDpo.Count > 0));
+                    }
+                }, (obj) => SelectedPersonDpo != null));
             }
         }
 
-        private RelayCommand deletePerson;
+        private RelayCommand _deletePerson;
         public RelayCommand DeletePerson
         {
             get
             {
-                return deletePerson ??
-                (deletePerson = new RelayCommand(obj =>
+                return _deletePerson ?? (_deletePerson = new RelayCommand(obj =>
                 {
-                    PersonDpo person = SelectedPersonDpo;
-                    MessageBoxResult result = MessageBox.Show(
-                        "Удалить данные по сотруднику: \n" + person.LastName + " " + person.FirstName,
-                        "Предупреждение",
-                        MessageBoxButton.OKCancel,
-                        MessageBoxImage.Warning);
+                    if (SelectedPersonDpo == null) return;
 
-                    if (result == MessageBoxResult.OK)
+                    var result = MessageBox.Show($"Удалить сотрудника {SelectedPersonDpo.LastName} {SelectedPersonDpo.FirstName}?",
+                        "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
                     {
-                        // находим соответствующий Person 
-                        FindPerson finder = new FindPerson(person.Id);
-                        var listPerson = new List<Person>(ListPerson);
-                        Person per = listPerson.Find(new Predicate<Person>(finder.PersonPredicate));
-
-                        if (per != null)
+                        var person = ListPerson.FirstOrDefault(p => p.Id == SelectedPersonDpo.Id);
+                        if (person != null)
                         {
-                            ListPerson.Remove(per);
-                            ListPersonDpo.Remove(person);
-                            SavePersons();
-
-                            if (ListPersonDpo.Count > 0)
-                                SelectedPersonDpo = ListPersonDpo[0];
-                            else
-                                SelectedPersonDpo = null;
+                            ListPerson.Remove(person);
+                            ListPersonDpo.Remove(SelectedPersonDpo);
+                            SaveData();
                         }
                     }
-                },
-                (obj) => SelectedPersonDpo != null && ListPersonDpo.Count > 0));
+                }, (obj) => SelectedPersonDpo != null));
             }
         }
 
-        #endregion
-
         public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
